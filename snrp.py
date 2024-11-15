@@ -1,4 +1,6 @@
-from Bio import SeqIO # Importing Sequence Input/Output interface from Biopython
+from concurrent.futures import ProcessPoolExecutor
+from itertools import chain
+import pyfastx
 
 fasta_files = [
     # Glycine_max GCA Fasta file
@@ -12,5 +14,6 @@ fasta_files = [
 sequences = [] # List of sequences
 
 for fasta_file in fasta_files: # Looping through each file to extract the sequences
-    for record in SeqIO.parse(fasta_file, "fasta"):
-        sequences.append(str(record.seq)) # Adding DNA sequences from all crops to sequences list
+    f = pyfastx.Fasta(fasta_file)
+    for seq in f:
+        sequences.append(str(seq.seq)) # Adding DNA sequences from all crops to sequences list
